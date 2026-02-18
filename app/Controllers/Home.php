@@ -24,6 +24,16 @@ class Home extends BaseController
         echo ($edad >= 18)? "Eres mayor de edad" : "Eres menor de edad";
 
     }
-
+public function usuarioTest(){
+    $usuarioModel = new \App\Models\UsuarioModel();
+    //-----CRUD-----
+    //buscar
+    //editar
+    //eliminar registros
+    //consultar
+    echo "<pre>";
+    print_r($usuarioModel->findAll());
+    echo "</pre>";
+}
 
 }

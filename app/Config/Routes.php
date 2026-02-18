@@ -18,3 +18,5 @@ $routes->post('/calculadora/sumar', 'Calculadora::sumar');
 $routes->post('/calculadora/restar', 'Calculadora::restar');
 $routes->post('/calculadora/multiplicar', 'Calculadora::multiplicar');
 $routes->post('/calculadora/dividir', 'Calculadora::dividir');
+
+$routes->get('/usuarioTest', 'Home::usuarioTest');
