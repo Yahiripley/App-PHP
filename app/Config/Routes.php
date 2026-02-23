@@ -23,16 +23,16 @@ $routes->get('/usuarioTest', 'Home::usuarioTest');
 
 
 $routes->group("usuarios", function($routes){
-    $routes->get('/', 'UsuarioController::index'); #localhost:8080/usuarios
-    $routes->get('/(:num)', 'UsuarioController::show/$1'); #localhost:8080/usuarios/5
-    $routes->get('/(:num)/edit', 'UsuarioController::edit/$1');
-    $routes->post('/(:num)/update', 'UsuarioController::update/$1');
-    $routes->post('/(:num)/delete', 'UsuarioController::delete/$1');
-    $routes->get('/create', 'UsuarioController::create');
-    $routes->post('/store', 'UsuarioController::store');
-    $routes->get('/login', 'UsuarioController::login');
-    $routes->post('/login/auth', 'UsuarioController::auth');
-    $routes->get('/logout', 'UsuarioController::logout');
+    $routes->get('', 'UsuarioController::index'); #localhost:8080/usuarios
+    $routes->get('(:num)', 'UsuarioController::show/$1'); #localhost:8080/usuarios/5
+    $routes->get('(:num)/edit', 'UsuarioController::edit/$1');
+    $routes->post('(:num)/update', 'UsuarioController::update/$1');
+    $routes->get('(:num)/delete', 'UsuarioController::delete/$1');
+    $routes->get('create', 'UsuarioController::create');
+    $routes->post('store', 'UsuarioController::store');
+    $routes->get('login', 'UsuarioController::login');
+    $routes->post('login/auth', 'UsuarioController::auth');
+    $routes->get('logout', 'UsuarioController::logout');
 });
 
 #GET Mostrar usuarios (VIEW)

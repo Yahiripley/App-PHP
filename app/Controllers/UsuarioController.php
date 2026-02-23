@@ -20,8 +20,39 @@ public function index(){
         $model = new UsuarioModel();
         $usuarios = $model->findAll();
         foreach($usuarios as $u){
-            echo "$u[nombre] <br>";
+            echo "$u[nombre] <b> ($u[id]) </b><br>";
+
+
         }
         }
+public function show($id){
+    $model = new UsuarioModel();
+    $usuario = $model->find($id);
+
+    if($usuario){
+    echo "$usuario[nombre] <br>";
+    echo "$usuario[email] <br>";
+    echo "$usuario[correo] <br>";
+    echo "id: $usuario[id] <br>";
+    echo "$usuario[status] <br>";
+    }else{
+        echo "Usuario no encontrado";
+    }
 }
-    
+public function delete(){
+    $model = new UsuarioModel();
+    $model->delete($id);
+    return redirect()->to('/usuarios')->with('mensaje', "Usuario $id eliminado");
+
+
+
+
+}
+public function create(){
+    return view('usuarios/create');
+
+
+
+
+}
+}
