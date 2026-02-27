@@ -1,58 +1,99 @@
 <?php
 
 /*
-Modelo: se conecta a la tabla de la base de datos
+Modelo: Se conecta a la tabla de la base de datos
 
-Controlador: Logica de programacion (CRUD) y salida de datos (Imprimir, cargar vista, json, redireccion)
+Controlador: logica de programacion (CRUD)
+             y salida de datos(imprimir, view html, json, redireccion)
 
-Routes: Indicamos que url va a acceder a que funcion de que controlador
+Routes: indicamos que url va a acceder a que funcion de que controlador
 
 Views: Plantilla html o php con un diseño preestablecido listo para usar
-*/
+
+*/ 
+
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
+use CodeIgniter\Controller; 
 use App\Models\UsuarioModel;
 
-class UsuarioController extends BaseController{
+class UsuarioController extends  BaseController{
 
+#GET Mostrar usuarios (VIEW)
+# route:  /
 public function index(){
-        $model = new UsuarioModel();
-        $usuarios = $model->findAll();
-        foreach($usuarios as $u){
-            echo "$u[nombre] <b> ($u[id]) </b><br>";
-
-
-        }
-        }
-public function show($id){
     $model = new UsuarioModel();
-    $usuario = $model->find($id);
 
-    if($usuario){
-    echo "$usuario[nombre] <br>";
-    echo "$usuario[email] <br>";
-    echo "$usuario[correo] <br>";
-    echo "id: $usuario[id] <br>";
-    echo "$usuario[status] <br>";
-    }else{
-        echo "Usuario no encontrado";
-    }
+    $usuarios =  $model->findAll();
+    
+    $data = array("usuarios" => $usuarios);
+    return view("usuarios/usuario_index",$data);
+
 }
-public function delete(){
+
+
+#GET Mostar usuario {id} (VIEW)
+#/(:num) 
+public function show($id)
+    {
+        $model = new UsuarioModel();
+        $usuario = $model->find($id);
+
+        $data = array("usuario" => $usuario);
+
+return view("usuarios/usuarios_show",$data);
+
+        if ($usuario) {
+            echo "Nombre: $usuario[nombre] <br>";
+            echo "Email:  $usuario[email] <br>" ;
+            echo "id:  $usuario[id]<br>" ; 
+            echo "Status:  $usuario[status] <br>" ;
+        } else {
+            echo "Usuario no encontrado.";
+        }
+    }
+
+#GET mostrar formulario para agregar usuario (VIEW)
+#/create 
+
+public function create(){
+    return view("usuarios/usuarios_create");
+}
+
+#POST accion: crear usuario  (redicrecciona -> usuarios/{id})
+#/store 
+
+#GET Mostrar formulario para editar usuario {id} (VIEW)
+#/edit/(:num) 
+
+#POST Accion: actualizar info del usuario {id} en la base de datos (Redireccion -> /usuarios)
+#/update/(:num) 
+
+#POST accion: eliminar usuario {id}
+#/delete/(:num) 
+
+public function delete($id){
     $model = new UsuarioModel();
     $model->delete($id);
-    return redirect()->to('/usuarios')->with('mensaje', "Usuario $id eliminado");
-
-
-
-
+    return redirect()->to('/usuarios')->with('msg', 'Usuario $id eliminado!');
 }
-public function create(){
-    return view('usuarios/create');
+
+#GET mostrar login
+#/login
+
+#post accion: validar login
+#/login/auth 
+
+#post accion: logout
+#/logout
 
 
 
 
-}
+
+
+
+
+
+
 }
