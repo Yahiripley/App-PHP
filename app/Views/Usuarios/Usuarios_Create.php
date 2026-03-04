@@ -10,13 +10,14 @@
     <form action ="/usuarios/store" method="POST">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" class="form-control">
+            <input type="text" name="nombre" class="form-control" required="true">
         </div>
 
         <div class="mb-3">
             <label>Email</label>
             <input type="email" name="email"
             maxlength="100"
+            required="true"
             class="form-control">
         </div>
         
@@ -25,6 +26,7 @@
             <input type="password" name="contrasena"
             maxlength="25"
             minlength="8"
+            required="true"
              class="form-control">
         </div>
 

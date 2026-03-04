@@ -64,10 +64,16 @@ public function create(){
 #/store 
 public function store(){
     $model = new UsuarioModel();
+
+    if(empty($_POST['nombre']) || empty($_POST['email']) || empty($_POST['contrasena'])) {
+        return redirect()->to('/usuarios')->with('msg', 'Todos los campos son obligatorios.');
+    }
+
+
     $datos = array(
         "nombre" => $_POST['nombre'],
         "email" => $_POST['email'],
-        "password" => $_POST['contrasena'],
+        "password" => password_hash(substr($_POST['contrasena'],25),PASSWORD_DEFAULT),
         "status" => "activo"
         
     );
