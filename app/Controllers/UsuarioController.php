@@ -62,6 +62,18 @@ public function create(){
 
 #POST accion: crear usuario  (redicrecciona -> usuarios/{id})
 #/store 
+public function store(){
+    $model = new UsuarioModel();
+    $datos = array(
+        "nombre" => $_POST['nombre'],
+        "email" => $_POST['email'],
+        "password" => $_POST['contrasena'],
+        "status" => "activo"
+        
+    );
+    $model->insert($datos);
+    return redirect()->to('/usuarios')->with('msg', 'Usuario creado exitosamente!');
+}
 
 #GET Mostrar formulario para editar usuario {id} (VIEW)
 #/edit/(:num) 

@@ -115,7 +115,7 @@
         
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="/usuarios" class="nav-link active">
                     <i class="bi bi-grid-1x2-fill"></i>
                     <span>Usuarios</span>
                 </a>
@@ -182,6 +182,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     // Lógica para colapsar el menú
