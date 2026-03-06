@@ -62,21 +62,45 @@ public function create(){
 
 #POST accion: crear usuario  (redicrecciona -> usuarios/{id})
 #/store 
-public function store(){
+public function store() {
     $model = new UsuarioModel();
 
-    if(empty($_POST['nombre']) || empty($_POST['email']) || empty($_POST['contrasena'])) {
-        return redirect()->to('/usuarios')->with('msg', 'Todos los campos son obligatorios.');
+    // 1. Definimos las reglas de validación
+    $reglas = [
+        'nombre'     => 'required',
+        'email'      => [
+            'rules' => 'required|valid_email|is_unique[usuarios.email]',
+            'errors' => [
+                'is_unique' => 'El correo ya está registrado.',
+                'valid_email' => 'El correo no es válido.'
+            ]
+        ],
+
+
+
+        'contrasena' => [
+            'label'  => 'Contraseña',
+            'rules'  => 'required|min_length[8]|regex_match[/(?=.*[A-Z])(?=.*[0-9])/]',
+            'errors' => [
+                'regex_match' => 'La {field} debe tener al menos una mayúscula y un número.'
+            ]
+        ]
+    ];
+
+    // 2. Ejecutamos la validación
+    if (!$this->validate($reglas)) {
+        //return redirect()->back()->withInput()->with('msg', 'Error: Datos inválidos o incompletos.');
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
 
+    // 3. Preparamos los datos (Ojo: quité los substr que recortaban el texto)
+    $datos = [
+        "nombre"   => $this->request->getPost("nombre"),
+        "email"    => $this->request->getPost("email"),
+        "password" => password_hash($this->request->getPost("contrasena"), PASSWORD_DEFAULT),
+        "status"   => "activo"
+    ];
 
-    $datos = array(
-        "nombre" => $_POST['nombre'],
-        "email" => $_POST['email'],
-        "password" => password_hash(substr($_POST['contrasena'],25),PASSWORD_DEFAULT),
-        "status" => "activo"
-        
-    );
     $model->insert($datos);
     return redirect()->to('/usuarios')->with('msg', 'Usuario creado exitosamente!');
 }

@@ -6,6 +6,20 @@
 <div class="col-md-8">
 <div class="card p-4">
     <h5 class="fw-bold mb-3">CREAR USUARIO</h5>
+
+    <?php if( session()->getFlashdata('errors') ){
+        foreach(session()->getFlashdata('errors') as $error){ ?>
+
+
+    ?>
+    <div class="alert alert-danger">
+        <?= session()->getFlashdata('errors') ?>
+    </div>
+
+    <?php } } ?>
+
+
+
     
     <form action ="/usuarios/store" method="POST">
         <div class="mb-3">
