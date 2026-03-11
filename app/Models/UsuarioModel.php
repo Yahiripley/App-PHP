@@ -20,7 +20,8 @@ protected $allowedFields =[
     "email",
     "password",
     "nombre",
-    "status"
+    "status",
+    "codigo_activacion"
 ];
 
  protected $useTimestamps = true;

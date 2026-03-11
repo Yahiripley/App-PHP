@@ -63,9 +63,10 @@ public function create(){
 #POST accion: crear usuario  (redicrecciona -> usuarios/{id})
 #/store 
 public function store() {
+    // 1. instanciar modelo para agregar usuario a la base de datos
     $model = new UsuarioModel();
 
-    // 1. Definimos las reglas de validación
+    // 2. Definimos las reglas de validación
     $reglas = [
         'nombre'     => 'required',
         'email'      => [
@@ -80,31 +81,52 @@ public function store() {
 
         'contrasena' => [
             'label'  => 'Contraseña',
-            'rules'  => 'required|min_length[8]|regex_match[/(?=.*[A-Z])(?=.*[0-9])/]',
+            'rules'  => 'required|min_length[8]|max_length[30]|regex_match[/(?=.*[A-Z])(?=.*[0-9])/]',
             'errors' => [
-                'regex_match' => 'La {field} debe tener al menos una mayúscula y un número.'
+                'regex_match' => 'La {field} debe tener al menos una mayúscula y un número, minimo 8 y maximo 30 caracteres.'
             ]
         ]
     ];
 
-    // 2. Ejecutamos la validación
+    // 3. Ejecutamos la validación
     if (!$this->validate($reglas)) {
         //return redirect()->back()->withInput()->with('msg', 'Error: Datos inválidos o incompletos.');
         return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
 
-    // 3. Preparamos los datos (Ojo: quité los substr que recortaban el texto)
+    //4. todo esta bien y listo para ser creado
+    // 5. se genera un codigo random de 5 caracteres para activar la cuenta del usuario
+    $codigo = random_int(100000, 999999); // Genera un código de activación aleatorio
+
+    // 6. se configura el array $datos con las columnas de la tabla usuarios y sus valores
+    //password hashado
+    //status inactivo
     $datos = [
         "nombre"   => $this->request->getPost("nombre"),
         "email"    => $this->request->getPost("email"),
         "password" => password_hash($this->request->getPost("contrasena"), PASSWORD_DEFAULT),
-        "status"   => "activo"
+        "status"   => "inactivo", //por defecto un nuevo usuario se crea como inactivo hasta que active su cuenta con el codigo de activacion
+        "codigo_activacion" => $codigo
     ];
 
-    $model->insert($datos);
-    return redirect()->to('/usuarios')->with('msg', 'Usuario creado exitosamente!');
-}
-
+    //7. se crea el registro en la tabla usuario y retorna el {id} del nuevo usuario
+    $usuario_id = $model->insert($datos);
+    $email = \config\Services::email();
+    $email->setTo($this->request->getPost("email"));
+    $email->setFrom("rifas@pitalla.com");
+    $email->setSubject('Activación de cuenta de RIFAPP');
+    $email->setMessage("
+    <h1> Activa tu cuenta en el siguiente enlace: </h1> 
+    <a href='http://localhost:8080/usuarios/activar/$usuario_id/$codigo'>Click para activar cuenta</a>
+    ");
+    //9. enviar correo
+    if ($email->send()) {
+    //10. redireccionar a index con el mensaje de usuario creado
+        return redirect()->to('/usuarios')->with('msg', 'Usuario creado exitosamente!');
+    } else {
+        return $email->printDebugger(['headers']);
+    }
+};
 #GET Mostrar formulario para editar usuario {id} (VIEW)
 #/edit/(:num) 
 
