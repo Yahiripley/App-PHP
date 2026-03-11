@@ -13,7 +13,7 @@
 
     ?>
     <div class="alert alert-danger">
-        <?= session()->getFlashdata('errors') ?>
+        <?= session()->getFlashdata('errors'); ?>
     </div>
 
     <?php } } ?>

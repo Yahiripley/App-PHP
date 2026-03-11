@@ -126,7 +126,7 @@ public function store() {
     } else {
         return $email->printDebugger(['headers']);
     }
-};
+}
 #GET Mostrar formulario para editar usuario {id} (VIEW)
 #/edit/(:num) 
 
