@@ -10,10 +10,10 @@
     <?php if( session()->getFlashdata('errors') ){
         foreach(session()->getFlashdata('errors') as $error){ ?>
 
-
-    ?>
+ 
     <div class="alert alert-danger">
-        <?= session()->getFlashdata('errors'); ?>
+        <?= ($error) ?>   
+
     </div>
 
     <?php } } ?>

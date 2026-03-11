@@ -13,7 +13,7 @@ protected $table ="usuarios";
 protected $primaryKey = "id";
 
 //para eliminar registros virtualmente
-protected $useSoftDeletes = true;
+protected $useSoftDeletes = false;
 
 //Campos que se pueden insertar/editar
 protected $allowedFields =[
