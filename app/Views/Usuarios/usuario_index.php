@@ -12,6 +12,13 @@ Views/usuarios/usuario_index.php
             
         LISTA DE USUARIOS</h4>
 
+<?php if(session()->getFlashdata("msg")){ ?>
+     <div class="alert alert-success">
+        <?= session()->getFlashdata("msg") ?>   
+
+    </div>
+<?php } ?>
+
         <a href="/usuarios/create" class="btn btn-sm btn-primary mb-3"><i class="bi bi-plus-circle"></i> Nuevo Usuario</a>
 
 
@@ -40,9 +47,9 @@ Views/usuarios/usuario_index.php
                 <td><?= $usuario['email'] ?></td>
                 <td><?= $usuario['status'] ?></td>
                 <td>
-                    <a href="/usuarios/<?= $usuario['id'] ?>" class=" btn btn-sm btn-success"><i class="bi bi-eye"></i></a>
-                    <a href="/usuarios/editar/<?= $usuario['id'] ?>"class=" btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                    <button onclick="eliminar(<?= $usuario['id'] ?>)" class=" btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button>
+                    <a href="/usuarios/<?= $usuario['id']; ?>" class=" btn btn-sm btn-success"><i class="bi bi-eye"></i></a>
+                    <a href="/usuarios/edit/<?= $usuario['id']; ?>"class=" btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+                    <button onclick="eliminar(<?= $usuario['id']; ?>)" class=" btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button>
                 </td>
             </tr> <!-- Fin renglon -->
         <?php    }   ?>

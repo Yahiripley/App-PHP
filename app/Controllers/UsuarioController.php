@@ -130,8 +130,17 @@ public function store() {
 #GET Mostrar formulario para editar usuario {id} (VIEW)
 #/edit/(:num) 
 
+public function edit($id){
+    $model = new UsuarioModel();
+    $data = array("usuario" => $model->find($id));
+
+    return view("usuarios/usuarios_edit",$data);
+}
 #POST Accion: actualizar info del usuario {id} en la base de datos (Redireccion -> /usuarios)
 #/update/(:num) 
+public function update($id){
+    echo "aqui va el codigo para actualizar el usuario";
+}
 
 #POST accion: eliminar usuario {id}
 #/delete/(:num) 
@@ -139,12 +148,14 @@ public function store() {
 public function delete($id){
     $model = new UsuarioModel();
     $model->delete($id);
-    return redirect()->to('/usuarios')->with('msg', 'Usuario $id eliminado!');
+    return redirect()->to('/usuarios')->with('msg', "Usuario $id eliminado!");
 }
 
 #GET mostrar login
 #/login
-
+public function login(){
+    echo "aqui va el login";
+}
 #post accion: validar login
 #/login/auth 
 
@@ -153,11 +164,21 @@ public function delete($id){
 
 
 
+public function activar($id, $codigo_activacion){
+   // echo "id: $id <br>codigo: $codigo_activacion";
+
+   $model = new UsuarioModel();
+   $usuario = $model->where(["id"=>$id, "codigo_activacion"=>$codigo_activacion])->first();
+
+    if ($usuario){
+        $model->update($id, ["status"=>"activo"]);
+        return redirect()->to('/usuarios/login')->with('msg', 'Usuario $id activado correctamente!');
+
+    }else{
+        echo "Activación fallida";
+}
 
 
 
-
-
-
-
+}
 }
