@@ -139,7 +139,19 @@ public function edit($id){
 #POST Accion: actualizar info del usuario {id} en la base de datos (Redireccion -> /usuarios)
 #/update/(:num) 
 public function update($id){
-    echo "aqui va el codigo para actualizar el usuario";
+    $model = new UsuarioModel();
+
+    $datos = array();
+
+    if($this->request->getPost("nombre")){$datos["nombre"] = $this->request->getPost("nombre");} 
+    if($this->request->getPost("email")){$datos["email"] = $this->request->getPost("email");} 
+
+    if($this->request->getPost("contrasena"))
+        {$datos["contrasena"] = password_hash($this->request->getPost("contrasena"), PASSWORD_DEFAULT);}
+ 
+
+$model->update($id, $datos);
+return redirect()->to('/usuarios')->with('msg', "Usuario $id actualizado!");
 }
 
 #POST accion: eliminar usuario {id}
