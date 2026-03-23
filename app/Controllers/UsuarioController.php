@@ -166,14 +166,27 @@ public function delete($id){
 #GET mostrar login
 #/login
 public function login(){
-    echo "aqui va el login";
+    return view("usuarios/login");
 }
 #post accion: validar login
 #/login/auth 
+public function auth(){
+    $email = $this->request->getPost("email");
+    $contrasena = $this->request->getPost("contrasena");
+
+    $model = new UsuarioModel();
+    $usuario = $model->where("email", $email)->first();
+
+    echo "<pre>";
+    print_r($usuario);
+    echo "</pre>";
+}
 
 #post accion: logout
 #/logout
-
+public function logout(){
+    echo "aqui va el logout";
+}
 
 
 public function activar($id, $codigo_activacion){

@@ -51,7 +51,7 @@ $routes->group("usuarios", function($routes){
     #GET mostrar login
     $routes->get("login", "UsuarioController::login");
     #post accion: validar login
-    $routes->post("login/auth", "UsuarioController::auth");
+    $routes->post("auth", "UsuarioController::auth");
     #post accion: logout
     $routes->post("logout", "UsuarioController::logout");
 
