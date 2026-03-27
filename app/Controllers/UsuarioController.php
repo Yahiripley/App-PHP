@@ -22,6 +22,12 @@ class UsuarioController extends  BaseController{
 #GET Mostrar usuarios (VIEW)
 # route:  /
 public function index(){
+    //validar que exista la sesion
+    if (!session()->has("usuario")) {
+        return redirect()->to("/usuarios/login")->with("error", "Inicia sesión para acceder a esta página");
+    }
+
+
     $model = new UsuarioModel();
 
     $usuarios =  $model->findAll();
@@ -177,9 +183,21 @@ public function auth(){
     $model = new UsuarioModel();
     $usuario = $model->where("email", $email)->first();
 
-    echo "<pre>";
-    print_r($usuario);
-    echo "</pre>";
+    //Validar contraseña
+    if ($usuario && password_verify($contrasena, $usuario["password"])){
+        $data=array("usuario"=>$usuario);
+        session()->set($data);
+
+        return redirect()->to("/usuarios");
+
+    }else{
+        return redirect()->to("/usuarios/login")->back()->with(
+            "msg", 
+            "Contraseña invalida o usuario inactivo"
+        );
+    }
+
+    
 }
 
 #post accion: logout
